@@ -5,6 +5,8 @@ var { buildSchema } = require('graphql');
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
     type Query {
+      quoteOfTheDay: String
+      random: Float!
       rollDice(numDice: Int!, numSides: Int): [Int]
       hello: String
     }
@@ -12,6 +14,12 @@ var schema = buildSchema(`
 
 // The root provides a resolved function for each API endpoint
 var root = {
+  quoteOfTheDay: () => {
+    return Math.random() < 0.5 ? 'Take it easy' : 'Salvation lies within.'
+  },
+  random: () => {
+    return Math.random();
+  },
   rollDice: function({numDice, numSides}) {
     var output = [];
     for (var i = 0; i < numDice; i++) {
@@ -19,7 +27,6 @@ var root = {
     }
     return output;
   },
-
   hello: () => {
     return 'Hello World!';
   },
